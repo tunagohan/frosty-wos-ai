@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../l10n.dart';
 
 class FrostyTypingIndicator extends StatelessWidget {
   const FrostyTypingIndicator({super.key});
@@ -43,12 +44,12 @@ class FrostyTypingIndicator extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Frosty is cooking your tactical answer...',
+                context.tr('Frosty is cooking your tactical answer...', 'Frostyが戦術回答を作成中...'),
                 style: TextStyle(
                   color: Color(0xFF00F0FF),
                   fontSize: 13,
@@ -58,7 +59,7 @@ class FrostyTypingIndicator extends StatelessWidget {
               ),
               SizedBox(height: 2),
               Text(
-                'Synthesizing Whiteout Survival master archives',
+                context.tr('Synthesizing Whiteout Survival master archives', 'ホワイトアウト・サバイバルの資料を解析中'),
                 style: TextStyle(
                   color: Color(0xFF94A3B8),
                   fontSize: 11,

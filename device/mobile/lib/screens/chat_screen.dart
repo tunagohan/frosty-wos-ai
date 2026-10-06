@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import '../models/chat_message.dart';
+import '../l10n.dart';
 import '../services/ai_service.dart';
 import '../widgets/typing_indicator.dart';
 
@@ -17,12 +18,12 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  final List<String> _quickPrompts = [
-    '🐻 Bear Trap Joiner Lineup',
-    '👑 Write about Generation 16',
-    '🔥 How to build Flint (Gen 2)',
-    '⚔️ Best PvP 50/20/30 Squad',
-    '🎯 Crazy Joe Wave 10/20 Guide',
+  List<String> get _quickPrompts => [
+    context.tr('🐻 Bear Trap Joiner Lineup', '🐻 熊狩りの集結参加編成'),
+    context.tr('👑 Write about Generation 16', '👑 第16世代について解説'),
+    context.tr('🔥 How to build Flint (Gen 2)', '🔥 フリント（第2世代）の育成方法'),
+    context.tr('⚔️ Best PvP 50/20/30 Squad', '⚔️ 最強PvP 50/20/30編成'),
+    context.tr('🎯 Crazy Joe Wave 10/20 Guide', '🎯 クレイジージョー 10/20波攻略'),
   ];
 
   @override
@@ -85,11 +86,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Frosty Tactical Oracle',
+                  context.tr('Frosty Tactical Oracle', 'Frosty 戦術オラクル'),
                   style: TextStyle(
                     fontFamily: 'Outfit',
                     fontWeight: FontWeight.bold,
@@ -113,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded, color: Color(0xFF94A3B8)),
-            tooltip: 'Clear Chat History',
+            tooltip: context.tr('Clear Chat History', 'チャット履歴を消去'),
             onPressed: () => aiService.clearConversation(),
           ),
         ],
@@ -229,8 +230,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(height: 18),
-          const Text(
-            'Frosty Tactical Command',
+          Text(
+            context.tr('Frosty Tactical Command', 'Frosty 戦術司令部'),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -239,8 +240,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Ask any question regarding Whiteout Survival formations, heroes, Bear Trap, or event guides.',
+          Text(
+            context.tr('Ask any question regarding Whiteout Survival formations, heroes, Bear Trap, or event guides.', 'ホワイトアウト・サバイバルの編成、英雄、熊狩り、イベント攻略について何でも質問してください。'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13.5,
@@ -249,10 +250,10 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Recommended Strategic Inquiries:',
+              context.tr('Recommended Strategic Inquiries:', 'おすすめの戦略質問：'),
               style: TextStyle(
                 color: Color(0xFF00F0FF),
                 fontSize: 12.5,
@@ -265,23 +266,23 @@ class _ChatScreenState extends State<ChatScreen> {
           const SizedBox(height: 12),
           _buildPromptCard(
             aiService,
-            '🐻 Best Bear Trap Lineup & Joiner Buffs',
-            'Optimal 10/10/80 ratio and top 4 joiner hero buffs (Jessie +25%, Seo-yoon +20%).',
-            'What is the optimal Bear Trap troop ratio and who are the best rally leader and joiner heroes?',
+            context.tr('🐻 Best Bear Trap Lineup & Joiner Buffs', '🐻 熊狩りの最強編成と集結参加バフ'),
+            context.tr('Optimal 10/10/80 ratio and top 4 joiner hero buffs (Jessie +25%, Seo-yoon +20%).', '最適な10/10/80比率と集結参加英雄バフ上位4つ（ジェシー+25%、ソユン+20%）。'),
+            context.tr('What is the optimal Bear Trap troop ratio and who are the best rally leader and joiner heroes?', '熊狩りの最適な兵種比率と、最強の集結リーダー・参加英雄は誰ですか？'),
           ),
           const SizedBox(height: 10),
           _buildPromptCard(
             aiService,
-            '👑 Generation 16 Hero Breakdown',
-            'Full breakdown of Seigel (Infantry), Ursar (Lancer), and Aisling (Marksman).',
-            'Give a full tactical evaluation of Generation 16 heroes (Seigel, Ursar, Aisling) and F2P advice.',
+            context.tr('👑 Generation 16 Hero Breakdown', '👑 第16世代英雄の徹底解説'),
+            context.tr('Full breakdown of Seigel (Infantry), Ursar (Lancer), and Aisling (Marksman).', 'シーゲル（盾兵）、ウルサー（槍兵）、アイスリン（弓兵）を徹底解説。'),
+            context.tr('Give a full tactical evaluation of Generation 16 heroes (Seigel, Ursar, Aisling) and F2P advice.', '第16世代英雄（シーゲル、ウルサー、アイスリン）の戦術評価と無課金向けアドバイスを教えてください。'),
           ),
           const SizedBox(height: 10),
           _buildPromptCard(
             aiService,
-            '⚔️ Standard PvP 50/20/30 Formation Doctrine',
-            'Why 50% infantry is mandatory and how to structure your 3-hero squad.',
-            'Explain the 50/20/30 formation in Whiteout Survival and why Infantry frontline is essential.',
+            context.tr('⚔️ Standard PvP 50/20/30 Formation Doctrine', '⚔️ PvP標準 50/20/30 編成理論'),
+            context.tr('Why 50% infantry is mandatory and how to structure your 3-hero squad.', '盾兵50%が必須な理由と、3英雄部隊の組み方。'),
+            context.tr('Explain the 50/20/30 formation in Whiteout Survival and why Infantry frontline is essential.', 'ホワイトアウト・サバイバルの50/20/30編成と、盾兵の前衛が不可欠な理由を説明してください。'),
           ),
           const SizedBox(height: 20),
         ],
@@ -398,12 +399,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       icon: const Icon(Icons.copy_rounded, size: 16, color: Color(0xFF94A3B8)),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      tooltip: 'Copy Answer',
+                      tooltip: context.tr('Copy Answer', '回答をコピー'),
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: msg.text));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text('📋 Copied tactical advice to clipboard!'),
+                            content: Text(context.tr('📋 Copied tactical advice to clipboard!', '📋 戦術アドバイスをクリップボードにコピーしました！')),
                             duration: const Duration(seconds: 2),
                             backgroundColor: const Color(0xFF0284C7),
                             behavior: SnackBarBehavior.floating,
@@ -514,8 +515,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   style: const TextStyle(color: Colors.white, fontSize: 14),
                   textInputAction: TextInputAction.send,
                   onSubmitted: (text) => _send(aiService, text),
-                  decoration: const InputDecoration(
-                    hintText: 'Ask Frosty (e.g. Bear Trap, Gen 16, 50/20/30)...',
+                  decoration: InputDecoration(
+                    hintText: context.tr('Ask Frosty (e.g. Bear Trap, Gen 16, 50/20/30)...', 'Frostyに質問（例：熊狩り、第16世代、50/20/30）...'),
                     hintStyle: TextStyle(color: Color(0xFF64748B), fontSize: 13),
                     border: InputBorder.none,
                     isDense: true,

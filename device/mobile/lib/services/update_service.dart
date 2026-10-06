@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../l10n.dart';
 
 class UpdateService {
   static const String currentVersion =
@@ -64,8 +65,8 @@ class UpdateService {
         } else if (manualCheck) {
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('✅ Frosty is up to date (v$currentVersion)'),
+              SnackBar(
+                content: Text(context.tr('✅ Frosty is up to date (v$currentVersion)', '✅ Frostyは最新です (v$currentVersion)')),
                 backgroundColor: Color(0xFF22C55E),
               ),
             );
@@ -75,8 +76,8 @@ class UpdateService {
     } catch (_) {
       if (manualCheck && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('⚠️ Unable to check GitHub for updates. Check internet connection.'),
+          SnackBar(
+            content: Text(context.tr('⚠️ Unable to check GitHub for updates. Check internet connection.', '⚠️ GitHubで更新を確認できません。インターネット接続を確認してください。')),
             backgroundColor: Color(0xFFEF4444),
           ),
         );
@@ -150,8 +151,8 @@ class UpdateService {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'New Update Available!',
+                          Text(
+                            context.tr('New Update Available!', '新しいアップデートがあります！'),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -160,7 +161,7 @@ class UpdateService {
                             ),
                           ),
                           Text(
-                            'v$latestVersion (Current: v$currentVersion)',
+                            context.tr('v$latestVersion (Current: v$currentVersion)', 'v$latestVersion（現在: v$currentVersion）'),
                             style: const TextStyle(
                               color: Color(0xFF00F0FF),
                               fontSize: 12.5,
@@ -217,8 +218,8 @@ class UpdateService {
                           await prefs.setString('last_skipped_version', latestVersion);
                           if (ctx.mounted) Navigator.pop(ctx);
                         },
-                        child: const Text(
-                          'Later',
+                        child: Text(
+                          context.tr('Later', '後で'),
                           style: TextStyle(
                             color: Color(0xFF94A3B8),
                             fontWeight: FontWeight.w600,
@@ -231,8 +232,8 @@ class UpdateService {
                       flex: 2,
                       child: ElevatedButton.icon(
                         icon: const Icon(Icons.download_rounded, size: 18),
-                        label: const Text(
-                          'Update Now',
+                        label: Text(
+                          context.tr('Update Now', '今すぐ更新'),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Outfit',

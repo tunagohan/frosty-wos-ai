@@ -3,6 +3,7 @@ import '../models/hero_profile.dart';
 import '../services/knowledge_service.dart';
 import '../widgets/hero_card.dart';
 import '../widgets/spatial_background.dart';
+import '../l10n.dart';
 
 class HeroCodexScreen extends StatefulWidget {
   const HeroCodexScreen({super.key});
@@ -63,11 +64,11 @@ class _HeroCodexScreenState extends State<HeroCodexScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF070D18),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
             Text('📖 ', style: TextStyle(fontSize: 18)),
             Text(
-              'Hero Codex (Gen 0 - 16+)',
+              context.tr('Hero Codex (Gen 0 - 16+)', '英雄図鑑（第0〜16世代以降）'),
               style: TextStyle(
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.bold,
@@ -90,7 +91,7 @@ class _HeroCodexScreenState extends State<HeroCodexScreen> {
                     ),
                   )
                 : const Icon(Icons.sync_rounded, color: Color(0xFF00F0FF)),
-            tooltip: 'Sync with Website Repository',
+            tooltip: context.tr('Sync with Website Repository', 'Webサイトのリポジトリと同期'),
             onPressed: _isSyncing ? null : _syncLive,
           ),
         ],
@@ -116,7 +117,7 @@ class _HeroCodexScreenState extends State<HeroCodexScreen> {
                   controller: _searchController,
                   style: const TextStyle(color: Colors.white, fontSize: 14),
                   decoration: InputDecoration(
-                    hintText: 'Search hero by name, skill, or troop type...',
+                    hintText: context.tr('Search hero by name, skill, or troop type...', '英雄名・スキル・兵種で検索...'),
                     hintStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 13),
                     filled: true,
                     fillColor: const Color(0xFF0F192C),
@@ -162,7 +163,7 @@ class _HeroCodexScreenState extends State<HeroCodexScreen> {
                   itemBuilder: (context, index) {
                     final gen = availableGens[index];
                     final isSelected = gen == _selectedGen;
-                    final label = gen == 0 ? '⭐ Epic Core' : 'Gen $gen';
+                    final label = gen == 0 ? context.tr('⭐ Epic Core', '⭐ エピック') : context.tr('Gen $gen', '第$gen世代');
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
@@ -224,8 +225,8 @@ class _HeroCodexScreenState extends State<HeroCodexScreen> {
                           const SizedBox(height: 12),
                           Text(
                             _searchQuery.isNotEmpty
-                                ? 'No heroes found matching "$_searchQuery"'
-                                : 'No heroes recorded for Gen $_selectedGen yet.',
+                                ? context.tr('No heroes found matching "$_searchQuery"', '「$_searchQuery」に一致する英雄はいません')
+                                : context.tr('No heroes recorded for Gen $_selectedGen yet.', '第$_selectedGen世代の英雄はまだ登録されていません。'),
                             style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
                           ),
                         ],
