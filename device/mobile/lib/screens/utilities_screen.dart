@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/knowledge_service.dart';
+import '../l10n.dart';
 
 class UtilitiesScreen extends StatefulWidget {
   const UtilitiesScreen({super.key});
@@ -177,11 +178,11 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF070D18),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
             Text('🧮 ', style: TextStyle(fontSize: 18)),
             Text(
-              'Tactical Utilities & Calculators',
+              context.tr('Tactical Utilities & Calculators', '戦術ユーティリティ＆計算ツール'),
               style: TextStyle(
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.bold,
@@ -204,13 +205,13 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
               physics: const BouncingScrollPhysics(),
               child: Row(
                 children: [
-                  _buildSubTab(0, '💎 Fire Crystal', 'FC'),
-                  _buildSubTab(1, '🛡️ Chief Charms', 'Charms'),
-                  _buildSubTab(2, '🏆 SvS Points', 'SvS'),
-                  _buildSubTab(3, '🐻 Bear Simulator', 'Bear'),
-                  _buildSubTab(4, '🚀 State Transfer', 'Transfer'),
-                  _buildSubTab(5, '🎁 Gift Codes', 'Codes'),
-                  _buildSubTab(6, '⏰ UTC Timers', 'Timers'),
+                  _buildSubTab(0, context.tr('💎 Fire Crystal', '💎 火晶'), 'FC'),
+                  _buildSubTab(1, context.tr('🛡️ Chief Charms', '🛡️ 首長チャーム'), 'Charms'),
+                  _buildSubTab(2, context.tr('🏆 SvS Points', '🏆 SvSポイント'), 'SvS'),
+                  _buildSubTab(3, context.tr('🐻 Bear Simulator', '🐻 熊狩りシミュ'), 'Bear'),
+                  _buildSubTab(4, context.tr('🚀 State Transfer', '🚀 サーバー移転'), 'Transfer'),
+                  _buildSubTab(5, context.tr('🎁 Gift Codes', '🎁 ギフトコード'), 'Codes'),
+                  _buildSubTab(6, context.tr('⏰ UTC Timers', '⏰ UTCタイマー'), 'Timers'),
                 ],
               ),
             ),
@@ -309,17 +310,17 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '💎 Fire Crystal Upgrade Planner',
+          title: context.tr('💎 Fire Crystal Upgrade Planner', '💎 火晶アップグレード計画'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Select Building Type:', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+              Text(context.tr('Select Building Type:', '建物の種類を選択：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
               const SizedBox(height: 6),
               Row(
                 children: [
                   Expanded(
                     child: _buildSelectionChip(
-                      label: 'Furnace / Embassy / Command',
+                      label: context.tr('Furnace / Embassy / Command', '溶鉱炉 / 大使館 / 司令部'),
                       isSelected: isFurnace,
                       onTap: () => setState(() => _fcBuildingType = 'furnace'),
                     ),
@@ -327,7 +328,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: _buildSelectionChip(
-                      label: 'Troop Camp (Inf/Lan/Mar)',
+                      label: context.tr('Troop Camp (Inf/Lan/Mar)', '兵舎（盾/槍/弓）'),
                       isSelected: !isFurnace,
                       onTap: () => setState(() => _fcBuildingType = 'camp'),
                     ),
@@ -339,7 +340,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                 children: [
                   Expanded(
                     child: _buildDropdown(
-                      label: 'Current FC Level',
+                      label: context.tr('Current FC Level', '現在の火晶レベル'),
                       value: _fcFromLevel,
                       items: List.generate(maxFcLevel, (i) => i),
                       itemLabel: (val) => val == 0 ? 'Lv 30 (FC 0)' : 'FC $val',
@@ -351,7 +352,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildDropdown(
-                      label: 'Target FC Level',
+                      label: context.tr('Target FC Level', '目標の火晶レベル'),
                       value: _fcToLevel,
                       items: List.generate(maxFcLevel, (i) => i + 1),
                       itemLabel: (val) => 'FC $val',
@@ -367,18 +368,18 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
         ),
         const SizedBox(height: 16),
         _buildCard(
-          title: '📊 Required Upgrade Materials',
+          title: context.tr('📊 Required Upgrade Materials', '📊 必要なアップグレード素材'),
           child: Column(
             children: [
-              _buildResultRow('Regular Fire Crystals (FC)', '$totalFC FC', const Color(0xFF00F0FF)),
+              _buildResultRow(context.tr('Regular Fire Crystals (FC)', '火晶（FC）'), '$totalFC FC', const Color(0xFF00F0FF)),
               if (totalRFC > 0) ...[
                 const SizedBox(height: 8),
-                _buildResultRow('Refined Fire Crystals (RFC)', '$totalRFC RFC', const Color(0xFFA855F7)),
+                _buildResultRow(context.tr('Refined Fire Crystals (RFC)', '精錬火晶（RFC）'), '$totalRFC RFC', const Color(0xFFA855F7)),
               ],
               const SizedBox(height: 8),
-              _buildResultRow('Base Construction Time', '~$totalDays Days', const Color(0xFFF59E0B)),
+              _buildResultRow(context.tr('Base Construction Time', '基本建設時間'), context.tr('~$totalDays Days', '約$totalDays日'), const Color(0xFFF59E0B)),
               const SizedBox(height: 8),
-              _buildResultRow('SvS City Construction Points', '${_formatNumber(svsPoints)} Pts', const Color(0xFF10B981)),
+              _buildResultRow(context.tr('SvS City Construction Points', 'SvS 都市建設ポイント'), '${_formatNumber(svsPoints)} pt', const Color(0xFF10B981)),
             ],
           ),
         ),
@@ -407,17 +408,17 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '🛡️ Chief Charms Upgrade Planner (Per Slot)',
+          title: context.tr('🛡️ Chief Charms Upgrade Planner (Per Slot)', '🛡️ 首長チャーム強化計画（1枠あたり）'),
           child: Column(
             children: [
               Row(
                 children: [
                   Expanded(
                     child: _buildDropdown(
-                      label: 'Current Charm Level',
+                      label: context.tr('Current Charm Level', '現在のチャームレベル'),
                       value: _charmFromLevel,
                       items: List.generate(maxCharmLevel, (i) => i),
-                      itemLabel: (val) => val == 0 ? 'Unequipped (Lv 0)' : 'Level $val',
+                      itemLabel: (val) => val == 0 ? context.tr('Unequipped (Lv 0)', '未装備（Lv 0）') : 'Lv $val',
                       onChanged: (val) {
                         if (val != null && val < _charmToLevel) setState(() => _charmFromLevel = val);
                       },
@@ -426,10 +427,10 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildDropdown(
-                      label: 'Target Charm Level',
+                      label: context.tr('Target Charm Level', '目標のチャームレベル'),
                       value: _charmToLevel,
                       items: List.generate(maxCharmLevel, (i) => i + 1),
-                      itemLabel: (val) => 'Level $val',
+                      itemLabel: (val) => 'Lv $val',
                       onChanged: (val) {
                         if (val != null && val > _charmFromLevel) setState(() => _charmToLevel = val);
                       },
@@ -442,16 +443,16 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
         ),
         const SizedBox(height: 16),
         _buildCard(
-          title: '📊 Required Materials & Combat Stats',
+          title: context.tr('📊 Required Materials & Combat Stats', '📊 必要素材＆戦闘ステータス'),
           child: Column(
             children: [
-              _buildResultRow('Charm Guides Needed', '$totalGuides Guides', const Color(0xFF00F0FF)),
+              _buildResultRow(context.tr('Charm Guides Needed', '必要なチャームガイド'), context.tr('$totalGuides Guides', '$totalGuides 個'), const Color(0xFF00F0FF)),
               const SizedBox(height: 8),
-              _buildResultRow('Charm Designs Needed', '$totalDesigns Designs', const Color(0xFFA855F7)),
+              _buildResultRow(context.tr('Charm Designs Needed', '必要なチャーム設計図'), context.tr('$totalDesigns Designs', '$totalDesigns 個'), const Color(0xFFA855F7)),
               const SizedBox(height: 8),
-              _buildResultRow('Lethality / Health Surge', '+${totalBoost.toStringAsFixed(1)}%', const Color(0xFFF59E0B)),
+              _buildResultRow(context.tr('Lethality / Health Surge', '殺傷力 / HP 上昇'), '+${totalBoost.toStringAsFixed(1)}%', const Color(0xFFF59E0B)),
               const SizedBox(height: 8),
-              _buildResultRow('SvS Charm Points (70 pts/score)', '${_formatNumber(totalSvS)} Pts', const Color(0xFF10B981)),
+              _buildResultRow(context.tr('SvS Charm Points (70 pts/score)', 'SvS チャームポイント（70pt/スコア）'), '${_formatNumber(totalSvS)} pt', const Color(0xFF10B981)),
             ],
           ),
         ),
@@ -473,11 +474,11 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '🏆 SvS Prep Phase Points Calculator',
+          title: context.tr('🏆 SvS Prep Phase Points Calculator', '🏆 SvS準備期間ポイント計算'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Select Activity:', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+              Text(context.tr('Select Activity:', 'アクティビティを選択：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
               const SizedBox(height: 6),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -504,7 +505,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('Enter Quantity:', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+              Text(context.tr('Enter Quantity:', '数量を入力：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
               const SizedBox(height: 6),
               Container(
                 decoration: BoxDecoration(
@@ -530,12 +531,12 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
         ),
         const SizedBox(height: 16),
         _buildCard(
-          title: '🌟 Point Conversion Result',
+          title: context.tr('🌟 Point Conversion Result', '🌟 ポイント換算結果'),
           child: Column(
             children: [
-              _buildResultRow('Total SvS Points Earned', '${_formatNumber(totalPoints)} Points', const Color(0xFF10B981)),
+              _buildResultRow(context.tr('Total SvS Points Earned', '獲得SvSポイント合計'), '${_formatNumber(totalPoints)} pt', const Color(0xFF10B981)),
               const SizedBox(height: 8),
-              _buildResultRow('Optimal Day to Spend', selectedRate['day'] as String, const Color(0xFFF59E0B)),
+              _buildResultRow(context.tr('Optimal Day to Spend', '使用に最適な日'), selectedRate['day'] as String, const Color(0xFFF59E0B)),
             ],
           ),
         ),
@@ -591,11 +592,11 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '🐻 Bear Trap Rally Configuration',
+          title: context.tr('🐻 Bear Trap Rally Configuration', '🐻 熊狩り集結設定'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('March Capacity (Single Rally / Lead):', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+              Text(context.tr('March Capacity (Single Rally / Lead):', '行軍容量（単独集結 / 主催）：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
               const SizedBox(height: 6),
               Container(
                 decoration: BoxDecoration(
@@ -607,8 +608,8 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   controller: _bearMarchCapacityController,
                   keyboardType: TextInputType.number,
                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  decoration: const InputDecoration(
-                    suffixText: 'Troops',
+                  decoration: InputDecoration(
+                    suffixText: context.tr('Troops', '兵'),
                     suffixStyle: TextStyle(color: Color(0xFF00F0FF)),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -642,7 +643,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Troop Tier:', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                        Text(context.tr('Troop Tier:', '兵士ランク：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
                         const SizedBox(height: 6),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -674,7 +675,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Troop Ratio:', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                        Text(context.tr('Troop Ratio:', '兵種比率：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
                         const SizedBox(height: 6),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -689,10 +690,10 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                               isExpanded: true,
                               dropdownColor: const Color(0xFF0F192C),
                               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                              items: const [
-                                DropdownMenuItem(value: '10/10/80', child: Text('10/10/80 (Meta)')),
-                                DropdownMenuItem(value: '0/20/80', child: Text('0/20/80 (Marksman)')),
-                                DropdownMenuItem(value: '33/33/33', child: Text('33/33/33 (Default)')),
+                              items: [
+                                DropdownMenuItem(value: '10/10/80', child: Text(context.tr('10/10/80 (Meta)', '10/10/80（メタ）'))),
+                                DropdownMenuItem(value: '0/20/80', child: Text(context.tr('0/20/80 (Marksman)', '0/20/80（弓兵）'))),
+                                DropdownMenuItem(value: '33/33/33', child: Text(context.tr('33/33/33 (Default)', '33/33/33（デフォルト）'))),
                               ],
                               onChanged: (val) {
                                 if (val != null) setState(() => _bearRatioPreset = val);
@@ -714,8 +715,8 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Top Joiners with Jessie / Buffs (+25% each):', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
-                      Text('$_bearJoinerJessieCount Joiners (+${joinerBonusPct.toInt()}% Total Skill Buff)',
+                      Text(context.tr('Top Joiners with Jessie / Buffs (+25% each):', 'ジェシー等バフ持ちの上位参加者（各+25%）：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+                      Text(context.tr('$_bearJoinerJessieCount Joiners (+${joinerBonusPct.toInt()}% Total Skill Buff)', '参加者$_bearJoinerJessieCount人（スキルバフ合計 +${joinerBonusPct.toInt()}%）'),
                           style: const TextStyle(color: Color(0xFF00F0FF), fontSize: 13, fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -744,33 +745,33 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
 
         // Simulation Results Card
         _buildCard(
-          title: '📊 Tactical Damage Output Simulation',
+          title: context.tr('📊 Tactical Damage Output Simulation', '📊 戦術ダメージ出力シミュレーション'),
           child: Column(
             children: [
-              _buildResultRow('Overall Damage Multiplier', '${totalMultiplier.toStringAsFixed(2)}x Boost', const Color(0xFF00F0FF)),
+              _buildResultRow(context.tr('Overall Damage Multiplier', '総合ダメージ倍率'), context.tr('${totalMultiplier.toStringAsFixed(2)}x Boost', '${totalMultiplier.toStringAsFixed(2)}倍'), const Color(0xFF00F0FF)),
               const SizedBox(height: 8),
-              _buildResultRow('DPS Surge Over Standard', '+${dpsGainOverDefault.toStringAsFixed(0)}% Damage', const Color(0xFF10B981)),
+              _buildResultRow(context.tr('DPS Surge Over Standard', '標準比のDPS上昇'), context.tr('+${dpsGainOverDefault.toStringAsFixed(0)}% Damage', 'ダメージ +${dpsGainOverDefault.toStringAsFixed(0)}%'), const Color(0xFF10B981)),
               const SizedBox(height: 12),
               const Divider(color: Colors.white12),
               const SizedBox(height: 12),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('🏹 Recommended March Troop Breakdown:',
+                child: Text(context.tr('🏹 Recommended March Troop Breakdown:', '🏹 推奨行軍兵士内訳：'),
                     style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, fontWeight: FontWeight.bold)),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(
-                    child: _buildTroopBox('🛡️ Infantry', '${_formatNumber(infCount)} (${(infPct * 100).toInt()}%)', const Color(0xFF38BDF8)),
+                    child: _buildTroopBox(context.tr('🛡️ Infantry', '🛡️ 盾兵'), '${_formatNumber(infCount)} (${(infPct * 100).toInt()}%)', const Color(0xFF38BDF8)),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: _buildTroopBox('🐎 Lancer', '${_formatNumber(lanCount)} (${(lanPct * 100).toInt()}%)', const Color(0xFFF59E0B)),
+                    child: _buildTroopBox(context.tr('🐎 Lancer', '🐎 槍兵'), '${_formatNumber(lanCount)} (${(lanPct * 100).toInt()}%)', const Color(0xFFF59E0B)),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: _buildTroopBox('🏹 Marksman', '${_formatNumber(mrkCount)} (${(mrkPct * 100).toInt()}%)', const Color(0xFFEF4444)),
+                    child: _buildTroopBox(context.tr('🏹 Marksman', '🏹 弓兵'), '${_formatNumber(mrkCount)} (${(mrkPct * 100).toInt()}%)', const Color(0xFFEF4444)),
                   ),
                 ],
               ),
@@ -781,17 +782,17 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
 
         // Strategy Tips Card
         _buildCard(
-          title: '💡 Bear Trap Master Strategy',
+          title: context.tr('💡 Bear Trap Master Strategy', '💡 熊狩りマスター戦略'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text('• Marksmen deal ~2.2x higher damage than Infantry vs Bear Trap because the Bear deals zero lethal return damage.',
+            children: [
+              Text(context.tr('• Marksmen deal ~2.2x higher damage than Infantry vs Bear Trap because the Bear deals zero lethal return damage.', '• 熊は致命的な反撃をしないため、熊狩りでは弓兵が盾兵の約2.2倍のダメージを与えます。'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, height: 1.4)),
               SizedBox(height: 6),
-              Text('• Top 4 Rally Joiners MUST send Jessie (+25%), Jader (+25%), or Seo-yoon (+20%) as their 1st Hero for maximum damage stacking.',
+              Text(context.tr('• Top 4 Rally Joiners MUST send Jessie (+25%), Jader (+25%), or Seo-yoon (+20%) as their 1st Hero for maximum damage stacking.', '• 上位4人の集結参加者は、ダメージを最大化するため必ずジェシー（+25%）、ジェイダー（+25%）、ソユン（+20%）を第1英雄にしてください。'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, height: 1.4)),
               SizedBox(height: 6),
-              Text('• Use March Speedups to quickly return marches and re-join multiple active alliance rallies.',
+              Text(context.tr('• Use March Speedups to quickly return marches and re-join multiple active alliance rallies.', '• 行軍加速を使って素早く帰還し、複数の同盟集結に再参加しましょう。'),
                   style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, height: 1.4)),
             ],
           ),
@@ -822,7 +823,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
   Widget _buildTransferCalculator() {
     final double power = double.tryParse(_transferPowerController.text.trim()) ?? 150.0;
     int passes = 1;
-    String tier = 'Ordinary Transfer';
+    String tier = context.tr('Ordinary Transfer', '一般移転');
 
     if (power < 30) {
       passes = 1;
@@ -842,27 +843,27 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       passes = 25;
     } else if (power < 350) {
       passes = 35;
-      tier = 'High Power Transfer';
+      tier = context.tr('High Power Transfer', '高戦力移転');
     } else if (power < 450) {
       passes = 50;
-      tier = 'High Power Transfer';
+      tier = context.tr('High Power Transfer', '高戦力移転');
     } else if (power < 600) {
       passes = 65;
-      tier = 'Top Tier Transfer';
+      tier = context.tr('Top Tier Transfer', 'トップ層移転');
     } else {
       passes = 80;
-      tier = 'Whale Transfer (Requires Leading Invite)';
+      tier = context.tr('Whale Transfer (Requires Leading Invite)', '重課金移転（招待枠が必要）');
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '🚀 State Transfer Pass Calculator',
+          title: context.tr('🚀 State Transfer Pass Calculator', '🚀 サーバー移転パス計算'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Enter Chief Power (in Millions):', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
+              Text(context.tr('Enter Chief Power (in Millions):', '首長の戦力を入力（百万単位）：'), style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12)),
               const SizedBox(height: 6),
               Container(
                 decoration: BoxDecoration(
@@ -874,8 +875,8 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                   controller: _transferPowerController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  decoration: const InputDecoration(
-                    suffixText: 'Million Power',
+                  decoration: InputDecoration(
+                    suffixText: context.tr('Million Power', '百万戦力'),
                     suffixStyle: TextStyle(color: Color(0xFF00F0FF)),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -888,17 +889,17 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
         ),
         const SizedBox(height: 16),
         _buildCard(
-          title: '🎫 Transfer Pass Requirement',
+          title: context.tr('🎫 Transfer Pass Requirement', '🎫 必要な移転パス'),
           child: Column(
             children: [
-              _buildResultRow('Required Transfer Passes', '$passes Passes', const Color(0xFF00F0FF)),
+              _buildResultRow(context.tr('Required Transfer Passes', '必要な移転パス数'), context.tr('$passes Passes', '$passes 枚'), const Color(0xFF00F0FF)),
               const SizedBox(height: 8),
-              _buildResultRow('Transfer Category', tier, const Color(0xFFF59E0B)),
+              _buildResultRow(context.tr('Transfer Category', '移転カテゴリ'), tier, const Color(0xFFF59E0B)),
               const SizedBox(height: 14),
               const Divider(height: 1, color: Colors.white12),
               const SizedBox(height: 12),
-              const Text(
-                '• Furnace Lv 25 minimum\n• Empty infirmary & no active marches\n• 30-Day transfer cooldown between hops\n• Target state must have open ordinary/leading quota',
+              Text(
+                context.tr('• Furnace Lv 25 minimum\n• Empty infirmary & no active marches\n• 30-Day transfer cooldown between hops\n• Target state must have open ordinary/leading quota', '• 溶鉱炉Lv25以上\n• 病院が空で行軍中の部隊がないこと\n• 移転ごとに30日のクールダウン\n• 移転先サーバーに一般/招待枠の空きが必要'),
                 style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, height: 1.4),
               ),
             ],
@@ -915,7 +916,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '🎁 Active Whiteout Survival Promo Codes',
+          title: context.tr('🎁 Active Whiteout Survival Promo Codes', '🎁 有効なホワイトアウト・サバイバル ギフトコード'),
           child: Column(
             children: giftCodes.map((c) {
               return Container(
@@ -956,7 +957,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
                         Clipboard.setData(ClipboardData(text: c['code']!));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Copied code: ${c['code']}'),
+                            content: Text(context.tr('Copied code: ${c['code']}', 'コードをコピーしました: ${c['code']}')),
                             backgroundColor: const Color(0xFF0284C7),
                             duration: const Duration(seconds: 2),
                           ),
@@ -978,7 +979,7 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
             }
           },
           icon: const Icon(Icons.open_in_browser_rounded),
-          label: const Text('Open Official Century Games Redeem Portal', style: TextStyle(fontWeight: FontWeight.bold)),
+          label: Text(context.tr('Open Official Century Games Redeem Portal', 'Century Games公式引き換えページを開く'), style: TextStyle(fontWeight: FontWeight.bold)),
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF00F0FF),
             foregroundColor: const Color(0xFF040914),
@@ -997,24 +998,24 @@ class _UtilitiesScreenState extends State<UtilitiesScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
-          title: '⏰ Alliance UTC Battle Windows',
+          title: context.tr('⏰ Alliance UTC Battle Windows', '⏰ 同盟イベント時間（UTC）'),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Current UTC Time: ${nowUtc.hour.toString().padLeft(2, '0')}:${nowUtc.minute.toString().padLeft(2, '0')} UTC',
+                '${context.tr('Current UTC Time', '現在のUTC時刻')}: ${nowUtc.hour.toString().padLeft(2, '0')}:${nowUtc.minute.toString().padLeft(2, '0')} UTC',
                 style: const TextStyle(color: Color(0xFF00F0FF), fontSize: 14, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 14),
-              _buildTimerRow('Foundry Battle', '19:00 & 21:00 UTC (Sat/Sun)'),
+              _buildTimerRow(context.tr('Foundry Battle', '兵器工場争奪戦'), context.tr('19:00 & 21:00 UTC (Sat/Sun)', '19:00 & 21:00 UTC（土/日）')),
               const SizedBox(height: 8),
-              _buildTimerRow('Canyon Clash', '12:00 & 19:00 UTC (Bi-weekly)'),
+              _buildTimerRow(context.tr('Canyon Clash', '峡谷合戦'), context.tr('12:00 & 19:00 UTC (Bi-weekly)', '12:00 & 19:00 UTC（隔週）')),
               const SizedBox(height: 8),
-              _buildTimerRow('SVS Battle Phase', '10:00 – 22:00 UTC (Saturday)'),
+              _buildTimerRow(context.tr('SVS Battle Phase', 'SvS 戦闘フェーズ'), context.tr('10:00 – 22:00 UTC (Saturday)', '10:00 – 22:00 UTC（土曜）')),
               const SizedBox(height: 8),
-              _buildTimerRow('Bear Trap', 'Every 48 Hours (Alliance set)'),
+              _buildTimerRow(context.tr('Bear Trap', '熊狩り'), context.tr('Every 48 Hours (Alliance set)', '48時間ごと（同盟設定）')),
               const SizedBox(height: 8),
-              _buildTimerRow('Fortress Battle', '14:00 & 19:00 UTC (Alternating)'),
+              _buildTimerRow(context.tr('Fortress Battle', '要塞争奪戦'), context.tr('14:00 & 19:00 UTC (Alternating)', '14:00 & 19:00 UTC（交互）')),
             ],
           ),
         ),

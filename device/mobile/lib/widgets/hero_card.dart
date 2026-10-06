@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/hero_profile.dart';
+import '../l10n.dart';
 
 /// 3D Interactive Hero Card with Perspective Tilt Physics & Holographic Glow
 class HeroCard extends StatefulWidget {
@@ -77,17 +78,17 @@ class _HeroCardState extends State<HeroCard> with SingleTickerProviderStateMixin
       case TroopType.infantry:
         primaryGlow = const Color(0xFF00F0FF); // Frost Cyan
         secondaryGlow = const Color(0xFF0284C7); // Deep Cobalt
-        troopBadge = 'INFANTRY TANK';
+        troopBadge = context.tr('INFANTRY TANK', '盾兵・タンク');
         break;
       case TroopType.lancer:
         primaryGlow = const Color(0xFFF59E0B); // Solar Amber
         secondaryGlow = const Color(0xFFEA580C); // Flame Orange
-        troopBadge = 'LANCER FLANK';
+        troopBadge = context.tr('LANCER FLANK', '槍兵・側面');
         break;
       case TroopType.marksman:
         primaryGlow = const Color(0xFFEC4899); // Neon Magenta
         secondaryGlow = const Color(0xFFEF4444); // Crimson Burst
-        troopBadge = 'MARKSMAN DPS';
+        troopBadge = context.tr('MARKSMAN DPS', '弓兵・火力');
         break;
     }
 
@@ -239,8 +240,8 @@ class _HeroCardState extends State<HeroCard> with SingleTickerProviderStateMixin
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Expedition Multiplier',
+                          Text(
+                            context.tr('Expedition Multiplier', '遠征倍率'),
                             style: TextStyle(color: Color(0xFF94A3B8), fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                           Text(
@@ -274,8 +275,8 @@ class _HeroCardState extends State<HeroCard> with SingleTickerProviderStateMixin
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Tactical Verdict',
+                                Text(
+                                  context.tr('Tactical Verdict', '戦術評価'),
                                   style: TextStyle(
                                     color: Color(0xFFF59E0B),
                                     fontSize: 11.5,
@@ -303,17 +304,17 @@ class _HeroCardState extends State<HeroCard> with SingleTickerProviderStateMixin
                       const SizedBox(height: 14),
                       const Divider(color: Colors.white12, height: 1),
                       const SizedBox(height: 12),
-                      _buildSkillTile('⚡ Exploration Skill', hero.explorationSkill, primaryGlow),
+                      _buildSkillTile(context.tr('⚡ Exploration Skill', '⚡ 探索スキル'), hero.explorationSkill, primaryGlow),
                       const SizedBox(height: 8),
-                      _buildSkillTile('⚔️ Expedition Skill', hero.expeditionSkill, secondaryGlow),
+                      _buildSkillTile(context.tr('⚔️ Expedition Skill', '⚔️ 遠征スキル'), hero.expeditionSkill, secondaryGlow),
                       const SizedBox(height: 8),
-                      _buildSkillTile('⚙️ Exclusive Gear', hero.exclusiveGear, const Color(0xFF8B5CF6)),
+                      _buildSkillTile(context.tr('⚙️ Exclusive Gear', '⚙️ 専用装備'), hero.exclusiveGear, const Color(0xFF8B5CF6)),
                     ],
 
                     const SizedBox(height: 8),
                     Center(
                       child: Text(
-                        _isExpanded ? '▲ Tap to collapse' : '▼ Tap for skill archives & widgets',
+                        _isExpanded ? context.tr('▲ Tap to collapse', '▲ タップで閉じる') : context.tr('▼ Tap for skill archives & widgets', '▼ タップでスキル詳細を表示'),
                         style: TextStyle(
                           color: primaryGlow.withOpacity(0.7),
                           fontSize: 11,

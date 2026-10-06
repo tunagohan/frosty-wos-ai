@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/state_calculation.dart';
+import '../l10n.dart';
 import '../services/state_age_service.dart';
 
 class StateAgeScreen extends StatefulWidget {
@@ -78,11 +79,11 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF070D18),
         elevation: 0,
-        title: const Row(
+        title: Row(
           children: [
             Text('⏱️ ', style: TextStyle(fontSize: 18)),
             Text(
-              'State Timeline & Server Age',
+              context.tr('State Timeline & Server Age', '州タイムラインとサーバー年齢'),
               style: TextStyle(
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.bold,
@@ -114,7 +115,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                   children: [
                     Expanded(
                       child: _buildModeTab(
-                        label: 'State #',
+                        label: context.tr('State #', '州番号'),
                         isSelected: _selectedMode == 0,
                         onTap: () {
                           setState(() => _selectedMode = 0);
@@ -124,7 +125,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                     ),
                     Expanded(
                       child: _buildModeTab(
-                        label: 'Server Days',
+                        label: context.tr('Server Days', 'サーバー日数'),
                         isSelected: _selectedMode == 1,
                         onTap: () {
                           setState(() => _selectedMode = 1);
@@ -134,7 +135,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                     ),
                     Expanded(
                       child: _buildModeTab(
-                        label: '📅 Pick Date',
+                        label: context.tr('📅 Pick Date', '📅 日付を選択'),
                         isSelected: _selectedMode == 2,
                         onTap: _pickDate,
                       ),
@@ -165,7 +166,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                             fontFamily: 'Outfit',
                           ),
                           decoration: InputDecoration(
-                            hintText: _selectedMode == 0 ? 'Enter State (e.g. 750)' : 'Enter Days (e.g. 450)',
+                            hintText: _selectedMode == 0 ? context.tr('Enter State (e.g. 750)', '州番号を入力（例：750）') : context.tr('Enter Days (e.g. 450)', '日数を入力（例：450）'),
                             hintStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 13),
                             prefixIcon: Icon(
                               _selectedMode == 0 ? Icons.flag_rounded : Icons.timer_outlined,
@@ -188,7 +189,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         elevation: 0,
                       ),
-                      child: const Text('Calculate', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(context.tr('Calculate', '計算'), style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -273,8 +274,8 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'ACTIVE GENERATION',
+                    Text(
+                      context.tr('ACTIVE GENERATION', '現在の世代'),
                       style: TextStyle(
                         color: Color(0xFF00F0FF),
                         fontSize: 11,
@@ -308,7 +309,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                     ],
                   ),
                   child: Text(
-                    'Day ~${calc.ageInDays}',
+                    context.tr('Day ~${calc.ageInDays}', '約${calc.ageInDays}日目'),
                     style: const TextStyle(
                       color: Color(0xFF00F0FF),
                       fontSize: 14,
@@ -326,7 +327,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                   const Icon(Icons.rocket_launch_outlined, color: Color(0xFF38BDF8), size: 14),
                   const SizedBox(width: 6),
                   Text(
-                    'Estimated Launch: ${DateFormat('MMMM d, yyyy').format(calc.estimatedLaunchDate!)}',
+                    '${context.tr('Estimated Launch', '推定開始日')}: ${DateFormat.yMMMMd(Localizations.localeOf(context).toString()).format(calc.estimatedLaunchDate!)}',
                     style: const TextStyle(
                       color: Color(0xFF94A3B8),
                       fontSize: 12,
@@ -341,8 +342,8 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
             const SizedBox(height: 16),
 
             // Active Heroes
-            const Text(
-              'Featured Generation Heroes:',
+            Text(
+              context.tr('Featured Generation Heroes:', '注目の世代英雄：'),
               style: TextStyle(
                 color: Color(0xFF94A3B8),
                 fontSize: 12,
@@ -398,7 +399,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Generation ${calc.nextGeneration} Unlocks In:',
+                            context.tr('Generation ${calc.nextGeneration} Unlocks In:', '第${calc.nextGeneration}世代の解放まで：'),
                             style: const TextStyle(
                               color: Color(0xFFF59E0B),
                               fontSize: 12,
@@ -407,7 +408,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '${calc.daysUntilNextGen} Days remaining',
+                            context.tr('${calc.daysUntilNextGen} Days remaining', '残り${calc.daysUntilNextGen}日'),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -417,7 +418,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                           ),
                           if (calc.estimatedNextGenDate != null)
                             Text(
-                              'Est. Date: ${DateFormat.yMMMd().format(calc.estimatedNextGenDate!)}',
+                              '${context.tr('Est. Date', '推定日')}: ${DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(calc.estimatedNextGenDate!)}',
                               style: const TextStyle(
                                 color: Color(0xFF94A3B8),
                                 fontSize: 11,
@@ -448,12 +449,12 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
                 Text('🎯', style: TextStyle(fontSize: 18)),
                 SizedBox(width: 8),
                 Text(
-                  'Tactical Shard Investment Roadmap',
+                  context.tr('Tactical Shard Investment Roadmap', '欠片投資ロードマップ'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -544,12 +545,12 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   children: [
                     Text('📜', style: TextStyle(fontSize: 18)),
                     SizedBox(width: 8),
                     Text(
-                      'State Timeline & Feature Unlocks',
+                      context.tr('State Timeline & Feature Unlocks', '州タイムラインと機能解放'),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -567,7 +568,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                     border: Border.all(color: const Color(0xFF0284C7)),
                   ),
                   child: Text(
-                    '${calc.unlockedMilestones.length}/${calc.milestones.length} Unlocked',
+                    context.tr('${calc.unlockedMilestones.length}/${calc.milestones.length} Unlocked', '${calc.unlockedMilestones.length}/${calc.milestones.length} 解放済み'),
                     style: const TextStyle(color: Color(0xFF38BDF8), fontSize: 11, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -581,13 +582,13 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
               physics: const BouncingScrollPhysics(),
               child: Row(
                 children: [
-                  _buildTimelineFilterChip('All', 'All (${calc.milestones.length})'),
-                  _buildTimelineFilterChip('Upcoming', '⏳ Upcoming (${calc.upcomingMilestones.length})'),
-                  _buildTimelineFilterChip('Unlocked', '✅ Unlocked (${calc.unlockedMilestones.length})'),
-                  _buildTimelineFilterChip('Fire Crystal', '💎 Fire Crystal'),
-                  _buildTimelineFilterChip('Pet', '🐾 Pets'),
-                  _buildTimelineFilterChip('Hero', '👑 Heroes'),
-                  _buildTimelineFilterChip('Event', '⚔️ Events & Gear'),
+                  _buildTimelineFilterChip('All', context.tr('All (${calc.milestones.length})', 'すべて (${calc.milestones.length})')),
+                  _buildTimelineFilterChip('Upcoming', context.tr('⏳ Upcoming (${calc.upcomingMilestones.length})', '⏳ 今後 (${calc.upcomingMilestones.length})')),
+                  _buildTimelineFilterChip('Unlocked', context.tr('✅ Unlocked (${calc.unlockedMilestones.length})', '✅ 解放済み (${calc.unlockedMilestones.length})')),
+                  _buildTimelineFilterChip('Fire Crystal', context.tr('💎 Fire Crystal', '💎 火晶')),
+                  _buildTimelineFilterChip('Pet', context.tr('🐾 Pets', '🐾 ペット')),
+                  _buildTimelineFilterChip('Hero', context.tr('👑 Heroes', '👑 英雄')),
+                  _buildTimelineFilterChip('Event', context.tr('⚔️ Events & Gear', '⚔️ イベントと装備')),
                 ],
               ),
             ),
@@ -659,7 +660,7 @@ class _StateAgeScreenState extends State<StateAgeScreen> {
                                           ),
                                         ),
                                         child: Text(
-                                          m.isUnlocked ? '✅ Day ${m.day}' : '⏳ In ${m.daysRemaining}d',
+                                          m.isUnlocked ? context.tr('✅ Day ${m.day}', '✅ ${m.day}日目') : context.tr('⏳ In ${m.daysRemaining}d', '⏳ あと${m.daysRemaining}日'),
                                           style: TextStyle(
                                             color: m.isUnlocked ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
                                             fontSize: 11,

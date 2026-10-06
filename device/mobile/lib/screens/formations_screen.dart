@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/ratio_bar.dart';
 import '../widgets/spatial_background.dart';
+import '../l10n.dart';
 
 /// 3D Interactive Tactical Formations & Battlefield Simulator
 class FormationsScreen extends StatefulWidget {
@@ -17,6 +18,10 @@ class _FormationsScreenState extends State<FormationsScreen> {
   final List<Map<String, dynamic>> _presets = [
     {
       'title': 'Standard PvP Field Battle',
+      'title_ja': '標準PvPフィールド戦',
+      'tagline_ja': 'グランドマスター万能スタンダード',
+      'doctrine_ja': '盾兵が敵前線のダメージを100%受け止めます。盾兵が40%を下回ると弓兵は即座に壊滅します。50/20/30なら弓兵が守られ、長期戦でも最大の持続火力を発揮できます。',
+      'heroes_ja': '前衛タンク1（ブラッドリー/フリント/シーゲル）＋槍兵1（ゴードン/ウルサス）＋弓兵1（エディス/アイスリング）',
       'icon': '⚔️',
       'inf': 50,
       'lan': 20,
@@ -28,6 +33,10 @@ class _FormationsScreenState extends State<FormationsScreen> {
     },
     {
       'title': 'Bear Trap (Max PvE Damage)',
+      'title_ja': '熊狩り（PvE最大火力）',
+      'tagline_ja': '全力ダメージバースト',
+      'doctrine_ja': '熊は部隊を倒したり負傷させたりしません！防御シールドや重装盾兵は不要。弓兵80%で総ダメージを最大化しましょう。',
+      'heroes_ja': '集結参加リーダー: ジェシー（ダメージ+25%）。副将: ソユン（攻撃+20%）＋最高ステータスの弓兵',
       'icon': '🐻',
       'inf': 10,
       'lan': 10,
@@ -39,6 +48,10 @@ class _FormationsScreenState extends State<FormationsScreen> {
     },
     {
       'title': 'Castle & Stronghold Defense',
+      'title_ja': '城・要塞防衛',
+      'tagline_ja': '難攻不落の城壁',
+      'doctrine_ja': '太陽城やSvSで複数の敵集結を防衛する際、城壁は大量のバーストダメージを受けます。セルゲイやブラッドリーと盾兵60%で駐屯部隊の突破を防ぎます。',
+      'heroes_ja': '駐屯リーダー: セルゲイ / ブラッドリー / ヘクター（防衛時HPバフ高め）',
       'icon': '🏰',
       'inf': 60,
       'lan': 20,
@@ -50,6 +63,10 @@ class _FormationsScreenState extends State<FormationsScreen> {
     },
     {
       'title': 'High Burst 4-1-1 Attack',
+      'title_ja': '高火力4-1-1アタック',
+      'tagline_ja': '高速拠点制圧',
+      'doctrine_ja': '弱い敵都市や鋳造所拠点を素早く殲滅するための攻撃編成。盾兵40%の最低ラインを保ちつつ、弓兵の大火力を発揮します。',
+      'heroes_ja': 'リーダー: フリント / ジェロニモ ＋ アロンソ / リン ＋ フィリー',
       'icon': '🎯',
       'inf': 40,
       'lan': 10,
@@ -83,11 +100,11 @@ class _FormationsScreenState extends State<FormationsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Troop Formations',
+                            context.tr('Troop Formations', '部隊編成'),
                             style: TextStyle(
                               fontFamily: 'Outfit',
                               fontWeight: FontWeight.bold,
@@ -98,7 +115,7 @@ class _FormationsScreenState extends State<FormationsScreen> {
                           ),
                           SizedBox(height: 2),
                           Text(
-                            '3D Isometric Lineup & March Simulator',
+                            context.tr('3D Isometric Lineup & March Simulator', '3D編成＆行軍シミュレーター'),
                             style: TextStyle(fontSize: 12, color: Color(0xFF00F0FF)),
                           ),
                         ],
@@ -110,11 +127,11 @@ class _FormationsScreenState extends State<FormationsScreen> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: const Color(0xFF00F0FF).withOpacity(0.4)),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Text('🛡️ ', style: TextStyle(fontSize: 12)),
                             Text(
-                              'Tactical Engine',
+                              context.tr('Tactical Engine', '戦術エンジン'),
                               style: TextStyle(color: Color(0xFF00F0FF), fontSize: 11, fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -185,7 +202,7 @@ class _FormationsScreenState extends State<FormationsScreen> {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      item['title'],
+                                      item[context.isJa ? 'title_ja' : 'title'],
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12.5,
@@ -289,7 +306,7 @@ class _FormationsScreenState extends State<FormationsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        active['title'],
+                        active[context.isJa ? 'title_ja' : 'title'],
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -298,7 +315,7 @@ class _FormationsScreenState extends State<FormationsScreen> {
                         ),
                       ),
                       Text(
-                        active['tagline'],
+                        active[context.isJa ? 'tagline_ja' : 'tagline'],
                         style: const TextStyle(color: Color(0xFF00F0FF), fontSize: 11.5),
                       ),
                     ],
@@ -326,11 +343,11 @@ class _FormationsScreenState extends State<FormationsScreen> {
           const SizedBox(height: 18),
 
           // 3-Row Spatial Battlefield Grid
-          _buildSquadRow('🛡️ FRONTLINE', 'Infantry Wall (Tank Barrier)', '${active['inf']}%', const Color(0xFF00F0FF), const Color(0xFF0284C7)),
+          _buildSquadRow(context.tr('🛡️ FRONTLINE', '🛡️ 前衛'), context.tr('Infantry Wall (Tank Barrier)', '盾兵の壁（タンク）'), '${active['inf']}%', const Color(0xFF00F0FF), const Color(0xFF0284C7)),
           const SizedBox(height: 8),
-          _buildSquadRow('🐎 MID-LANE', 'Lancer Cavalry (Flank Infiltration)', '${active['lan']}%', const Color(0xFFF59E0B), const Color(0xFFEA580C)),
+          _buildSquadRow(context.tr('🐎 MID-LANE', '🐎 中衛'), context.tr('Lancer Cavalry (Flank Infiltration)', '槍兵（側面突破）'), '${active['lan']}%', const Color(0xFFF59E0B), const Color(0xFFEA580C)),
           const SizedBox(height: 8),
-          _buildSquadRow('🏹 REARGUARD', 'Marksman Siege (High-DPS Artillery)', '${active['mar']}%', const Color(0xFFEC4899), const Color(0xFFEF4444)),
+          _buildSquadRow(context.tr('🏹 REARGUARD', '🏹 後衛'), context.tr('Marksman Siege (High-DPS Artillery)', '弓兵（高火力砲撃）'), '${active['mar']}%', const Color(0xFFEC4899), const Color(0xFFEF4444)),
 
           const SizedBox(height: 16),
           RatioBar(
@@ -408,8 +425,8 @@ class _FormationsScreenState extends State<FormationsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'March Capacity Simulator',
+              Text(
+                context.tr('March Capacity Simulator', '行軍容量シミュレーター'),
                 style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'Outfit'),
               ),
               Text(
@@ -439,9 +456,9 @@ class _FormationsScreenState extends State<FormationsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildTroopCountBadge('🔷 Infantry', infCount, const Color(0xFF00F0FF)),
-              _buildTroopCountBadge('🔶 Lancer', lanCount, const Color(0xFFF59E0B)),
-              _buildTroopCountBadge('🔴 Marksman', marCount, const Color(0xFFEC4899)),
+              _buildTroopCountBadge(context.tr('🔷 Infantry', '🔷 盾兵'), infCount, const Color(0xFF00F0FF)),
+              _buildTroopCountBadge(context.tr('🔶 Lancer', '🔶 槍兵'), lanCount, const Color(0xFFF59E0B)),
+              _buildTroopCountBadge(context.tr('🔴 Marksman', '🔴 弓兵'), marCount, const Color(0xFFEC4899)),
             ],
           ),
         ],
@@ -478,30 +495,30 @@ class _FormationsScreenState extends State<FormationsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Text('📜 ', style: TextStyle(fontSize: 16)),
               Text(
-                'Grandmaster Battle Doctrine',
+                context.tr('Grandmaster Battle Doctrine', 'グランドマスター戦闘ドクトリン'),
                 style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Outfit'),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            active['doctrine'],
+            active[context.isJa ? 'doctrine_ja' : 'doctrine'],
             style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 12.5, height: 1.45),
           ),
           const SizedBox(height: 12),
           const Divider(color: Colors.white10),
           const SizedBox(height: 8),
-          const Text(
-            'Recommended Hero Squad:',
+          Text(
+            context.tr('Recommended Hero Squad:', 'おすすめ英雄編成：'),
             style: TextStyle(color: Color(0xFF00F0FF), fontSize: 12, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
-            active['heroes'],
+            active[context.isJa ? 'heroes_ja' : 'heroes'],
             style: const TextStyle(color: Color(0xFFE2E8F0), fontSize: 12.5, height: 1.35),
           ),
         ],

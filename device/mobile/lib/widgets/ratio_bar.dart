@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n.dart';
 
 /// 3D Glowing Troop Ratio Bar
 class RatioBar extends StatelessWidget {
@@ -22,9 +23,9 @@ class RatioBar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildLegendItem('🔷 Infantry', '$infantry%', const Color(0xFF00F0FF)),
-            _buildLegendItem('🔶 Lancer', '$lancer%', const Color(0xFFF59E0B)),
-            _buildLegendItem('🔴 Marksman', '$marksman%', const Color(0xFFEC4899)),
+            _buildLegendItem(context.tr('🔷 Infantry', '🔷 盾兵'), '$infantry%', const Color(0xFF00F0FF)),
+            _buildLegendItem(context.tr('🔶 Lancer', '🔶 槍兵'), '$lancer%', const Color(0xFFF59E0B)),
+            _buildLegendItem(context.tr('🔴 Marksman', '🔴 弓兵'), '$marksman%', const Color(0xFFEC4899)),
           ],
         ),
         const SizedBox(height: 10),

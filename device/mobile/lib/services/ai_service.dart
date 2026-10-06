@@ -18,6 +18,7 @@ class AIService extends ChangeNotifier {
   String _ollamaHost = 'http://localhost:11434';
   String _ollamaModel = 'llama3.2:1b';
   String _selectedProvider = 'auto'; // 'auto', 'backend', 'gemini', 'groq', 'ollama', 'offline'
+  String _language = 'en'; // 'en', 'ja'
 
   bool _isGenerating = false;
   bool get isGenerating => _isGenerating;
@@ -31,17 +32,21 @@ class AIService extends ChangeNotifier {
   }
 
   void _addInitialGreeting() {
-    if (_messages.isEmpty) {
-      _messages.add(
-        ChatMessage(
-          id: 'welcome_1',
-          content: '### ❄️ Welcome to Frosty Tactical Command!\n\nI am your **Whiteout Survival Grandmaster AI**. Ask me anything about:\n• 🐻 **Bear Trap & Rally Joiner Buffs** (Jessie +25% rule & 10/10/80 ratios)\n• 🛡️ **Hero Builds & Tier Lists** (Generations 0 to 16+ including Seigel, Bradley, Flint)\n• ⚔️ **PvP Troop Formations** (50/20/30, 60/20/20 Garrison Defense)\n• 🎯 **Crazy Joe & SvS Event Walkthroughs**\n\n*How can I assist your alliance today, Chief?*',
-          isUser: false,
-          timestamp: DateTime.now(),
-          modelUsed: 'Frosty Tactical Core',
-          latencySeconds: 0.0,
-        ),
-      );
+    final greeting = ChatMessage(
+      id: 'welcome_1',
+      content: _language == 'ja'
+          ? '### ❄️ Frosty 戦術司令部へようこそ！\n\n私は**ホワイトアウト・サバイバルのグランドマスターAI**です。何でも聞いてください：\n• 🐻 **熊狩り＆集結参加バフ**（ジェシー+25%ルール、10/10/80比率）\n• 🛡️ **英雄育成＆ティアリスト**（第0〜16世代以降：シーゲル、ブラッドリー、フリントなど）\n• ⚔️ **PvP部隊編成**（50/20/30、60/20/20 駐屯防衛）\n• 🎯 **クレイジージョー＆SvS攻略**\n\n*今日は同盟のために何をお手伝いしましょうか、首長？*'
+          : '### ❄️ Welcome to Frosty Tactical Command!\n\nI am your **Whiteout Survival Grandmaster AI**. Ask me anything about:\n• 🐻 **Bear Trap & Rally Joiner Buffs** (Jessie +25% rule & 10/10/80 ratios)\n• 🛡️ **Hero Builds & Tier Lists** (Generations 0 to 16+ including Seigel, Bradley, Flint)\n• ⚔️ **PvP Troop Formations** (50/20/30, 60/20/20 Garrison Defense)\n• 🎯 **Crazy Joe & SvS Event Walkthroughs**\n\n*How can I assist your alliance today, Chief?*',
+      isUser: false,
+      timestamp: DateTime.now(),
+      modelUsed: 'Frosty Tactical Core',
+      latencySeconds: 0.0,
+    );
+    final i = _messages.indexWhere((m) => m.id == 'welcome_1');
+    if (i >= 0) {
+      _messages[i] = greeting;
+    } else if (_messages.isEmpty) {
+      _messages.add(greeting);
     }
   }
 
@@ -54,6 +59,8 @@ class AIService extends ChangeNotifier {
       _ollamaHost = prefs.getString('custom_ollama_host') ?? 'http://localhost:11434';
       _ollamaModel = prefs.getString('custom_ollama_model') ?? 'llama3.2:1b';
       _selectedProvider = prefs.getString('selected_ai_provider') ?? 'auto';
+      _language = prefs.getString('app_language') ?? 'en';
+      _addInitialGreeting();
       notifyListeners();
     } catch (_) {}
   }
@@ -65,6 +72,7 @@ class AIService extends ChangeNotifier {
     String? ollamaHost,
     String? ollamaModel,
     String? provider,
+    String? language,
   }) async {
     final prefs = await SharedPreferences.getInstance();
     if (geminiKey != null) {
@@ -91,10 +99,16 @@ class AIService extends ChangeNotifier {
       _selectedProvider = provider;
       await prefs.setString('selected_ai_provider', _selectedProvider);
     }
+    if (language != null) {
+      _language = language;
+      await prefs.setString('app_language', _language);
+      _addInitialGreeting();
+    }
     notifyListeners();
   }
 
   String get currentProvider => _selectedProvider;
+  String get language => _language;
   String get geminiKey => _geminiKey;
   String get groqKey => _groqKey;
   String get backendUrl => _backendUrl;
@@ -768,6 +782,6 @@ Edith operates alongside her giant mech companion, **Mr. Tin**. She is engineere
     return '''You are Frosty, the premier Whiteout Survival Tactical Oracle and Grandmaster Military Advisor.
 You possess complete mastery of Whiteout Survival mechanics, heroes (Gen 0 to Gen 17+ including Aiden, Bertha, Eleanor), troop ratios (50/20/30, 10/10/80), Bear Trap rally joiner dynamics (Jessie +25% buff), Crazy Joe defense, and Dawn Academy Experts.
 
-Deliver concise, highly actionable, expert answers formatted in clean Markdown with bold bullet points, emojis, and a clear tactical verdict.''';
+Deliver concise, highly actionable, expert answers formatted in clean Markdown with bold bullet points, emojis, and a clear tactical verdict.${_language == 'ja' ? '\n\nAlways reply in Japanese.' : ''}''';
   }
 }

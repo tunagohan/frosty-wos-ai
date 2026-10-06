@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'screens/chat_screen.dart';
 import 'screens/state_age_screen.dart';
@@ -9,6 +10,7 @@ import 'screens/settings_screen.dart';
 import 'services/ai_service.dart';
 import 'services/update_service.dart';
 import 'services/knowledge_service.dart';
+import 'l10n.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +26,12 @@ class FrostyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AIService()),
       ],
-      child: MaterialApp(
+      child: Consumer<AIService>(
+        builder: (context, ai, _) => MaterialApp(
         title: 'Frosty WOS AI',
+        locale: Locale(ai.language),
+        supportedLocales: const [Locale('en'), Locale('ja')],
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
@@ -44,6 +50,7 @@ class FrostyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const MainNavigationShell(),
+      ),
       ),
     );
   }
@@ -147,36 +154,36 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                       ],
                     ),
                   ),
-                  destinations: const [
+                  destinations: [
                     NavigationRailDestination(
                       icon: Icon(Icons.chat_bubble_outline_rounded, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.chat_bubble_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('AI Oracle'),
+                      label: Text(context.tr('AI Oracle', 'AIオラクル')),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.timer_outlined, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.timer_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('State Age'),
+                      label: Text(context.tr('State Age', 'サーバー年齢')),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.calculate_outlined, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.calculate_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('Calculators'),
+                      label: Text(context.tr('Calculators', '計算ツール')),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.menu_book_outlined, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.menu_book_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('Hero Codex'),
+                      label: Text(context.tr('Hero Codex', '英雄図鑑')),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.shield_outlined, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.shield_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('Formations'),
+                      label: Text(context.tr('Formations', '編成')),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.settings_outlined, color: Color(0xFF94A3B8)),
                       selectedIcon: Icon(Icons.settings_rounded, color: Color(0xFF00F0FF)),
-                      label: Text('Settings'),
+                      label: Text(context.tr('Settings', '設定')),
                     ),
                   ],
                 ),
@@ -227,36 +234,36 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
               onDestinationSelected: (index) {
                 setState(() => _currentIndex = index);
               },
-              destinations: const [
+              destinations: [
                 NavigationDestination(
                   icon: Icon(Icons.chat_bubble_outline_rounded, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.chat_bubble_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'AI Oracle',
+                  label: context.tr('AI Oracle', 'AIオラクル'),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.timer_outlined, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.timer_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'Timeline',
+                  label: context.tr('Timeline', 'タイムライン'),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.calculate_outlined, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.calculate_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'Tools',
+                  label: context.tr('Tools', 'ツール'),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.menu_book_outlined, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.menu_book_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'Codex',
+                  label: context.tr('Codex', '図鑑'),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.shield_outlined, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.shield_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'Lineups',
+                  label: context.tr('Lineups', '編成'),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.settings_outlined, color: Color(0xFF94A3B8), size: 20),
                   selectedIcon: Icon(Icons.settings_rounded, color: Color(0xFF00F0FF), size: 22),
-                  label: 'Settings',
+                  label: context.tr('Settings', '設定'),
                 ),
               ],
             ),

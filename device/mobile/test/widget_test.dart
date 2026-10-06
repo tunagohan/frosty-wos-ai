@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frosty_wos_ai/main.dart';
 import 'package:frosty_wos_ai/models/chat_message.dart';
 import 'package:frosty_wos_ai/models/hero_profile.dart';
@@ -71,6 +72,15 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
 
       expect(find.text('Frosty Tactical Oracle'), findsOneWidget);
+    });
+
+    testWidgets('Saved Japanese language localizes navigation labels', (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({'app_language': 'ja'});
+      await tester.pumpWidget(const FrostyApp());
+      await tester.pump(const Duration(milliseconds: 200));
+
+      expect(find.text('設定'), findsWidgets);
+      expect(find.text('Settings'), findsNothing);
     });
   });
 }
